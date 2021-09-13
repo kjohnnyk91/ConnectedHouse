@@ -1,9 +1,9 @@
-#include "HouseLCP.hpp"
+#include "HouseLCD.hpp"
 
 namespace House
 {
-	HouseLCD::HouseLCD(ConnectedHouse* house, const uint8_t bus, uint8_t addr, uint8_t width = 16, bool backlight_on = true):
-		LCD(const uint8_t bus, uint8_t addr, uint8_t width = 16, bool backlight_on = true),
+	HouseLCD::HouseLCD(ConnectedHouse* house, const uint8_t bus, uint8_t addr, uint8_t width, bool backlight_on):
+		LCD(bus, addr, width, backlight_on),
 		house_(house),
 		temp_(0),
 		persons_(0)
@@ -25,7 +25,7 @@ namespace House
 			return false;
 		}
 		
-		if((temp_ = tempSensor_-> readTemp()) > -273.16)
+		if((temp_ = tempSensor-> readTemp()) < -273.15)
 		{
 			temp_ = 0;
 			
@@ -65,6 +65,6 @@ namespace House
 		setPosition(0,0);
 		printf("Presence : %d", persons_);
 		setPosition(0,1);
-		printf("Temperature : %f", temp_);
+		printf("Temp : %f", temp_);
 	}
 }

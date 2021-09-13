@@ -4,10 +4,10 @@ int main()
 {
 	House::ConnectedHouse house(0);
 	
-	House::Light* light(house.light());
-	LCD* lcd(house.lcd());
-	light-> setLight(false);
-	lcd-> enableBacklight(false);
+	house.lightOff();
+	house.lcdOff();
+	
+	house.tempRead();
 	
 	return 0;
 }

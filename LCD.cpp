@@ -58,9 +58,7 @@ LCD::LCD(const uint8_t bus, uint8_t addr, uint8_t width, bool backlight_on) {
 }
 
 LCD::~LCD() {
-    std::cout << "~LCD : Start" << std::endl;
     i2cClose(m_i2cHandle);
-    std::cout << "~LCD : End" << std::endl;
 }
 
 /*

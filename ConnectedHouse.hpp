@@ -6,7 +6,7 @@
 #include <pigpio.h>
 #include "GPIOUtilities.hpp"
 #include "MCP9808.hpp"
-#include "LCD.hpp"
+#include "HouseLCD.hpp"
 #include "Light.hpp"
 
 #define GPIO_LED 17
@@ -16,6 +16,7 @@
 namespace House
 {
 	class Light;
+	class HouseLCD;
 	class MCP9808;
 	
 	class ConnectedHouse
@@ -25,7 +26,7 @@ namespace House
 			uint8_t persons_;
 			Light* light_;
 			// Door* door_;
-			LCD* lcd_;
+			HouseLCD* lcd_;
 			MCP9808* tempSensor_;
 			// RFIDReader* RFIDReader_;
 			// bool exitButton_;
@@ -40,22 +41,22 @@ namespace House
 			inline uint8_t persons() const;
 			inline Light* light();
 			// inline Door* door();
-			inline LCD* lcd();
+			inline HouseLCD* lcd();
 			inline MCP9808* tempSensor();
 			// inline RFIDReader* RFIDReader();
 			
 			inline void setPersons(uint8_t persons);
 			bool setLight(Light* light);
 			// inline void setDoor(Door* door);
-			inline void setLCD(LCD* lcd);
+			inline void setLCD(HouseLCD* lcd);
 			bool setTempSensor(MCP9808* sensor);
 			// inline void setRFIDReader(RFIDReader reader);
 			
-			inline void lightOff();
-			inline void lightOn();
-			inline void lcdOff();
-			inline void lcdOn();
-			inline void tempRead();
+			bool lightOff();
+			bool lightOn();
+			bool lcdOff();
+			bool lcdOn();
+			bool tempRead();
 	};
 	
 	inline int ConnectedHouse::version() const
@@ -78,7 +79,7 @@ namespace House
 	//		return door_;
 	//	}
 	
-	inline LCD* ConnectedHouse::lcd()
+	inline HouseLCD* ConnectedHouse::lcd()
 	{
 		return lcd_;
 	}
@@ -98,10 +99,10 @@ namespace House
 		persons_ = persons;
 	}
 	
-	//	inline void ConnectedHouse::setLCD(LCD* lcd)
-	//	{
-	//		lcd_ = lcd;
-	//	}
+	inline void ConnectedHouse::setLCD(HouseLCD* lcd)
+	{
+		lcd_ = lcd;
+	}
 	
 	//	inline void ConnectedHouse::setRFIDReader(RFIDReader* RFIDReader)
 	//	{
@@ -113,27 +114,15 @@ namespace House
 	//		persons_ = persons;
 	//	}
 	
-	inline void ConnectedHouse::lightOff()
-	{
-		light_-> setLight(false);
-	}
+	//	inline void ConnectedHouse::lightOff()
+	//	{
+	//		light_-> setLight(false);
+	//	}
 	
-	inline void ConnectedHouse::lightOn()
-	{
-		light_-> setLight(true);
-	}
-	
-	inline void ConnectedHouse::lcdOff()
-	{
-		if(lcd_ != nullptr)
-			lcd_-> enableBacklight(false);
-	}
-	
-	inline void ConnectedHouse::lcdOn()
-	{
-		if(lcd_ != nullptr)
-			lcd_-> enableBacklight(true);	
-	}
+	//	inline void ConnectedHouse::lightOn()
+	//	{
+	//		light_-> setLight(true);
+	//	}
 }
 
 #endif

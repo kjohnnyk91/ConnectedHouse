@@ -7,6 +7,8 @@
 
 namespace House
 {
+	class ConnectedHouse;
+	
 	class HouseLCD : public LCD
 	{
 		protected:
@@ -18,6 +20,7 @@ namespace House
 			HouseLCD(ConnectedHouse* house, const uint8_t bus, uint8_t addr, uint8_t width = 16, bool backlight_on = true);
 			~HouseLCD();
 			
+			inline ConnectedHouse* house();
 			inline float temp() const;
 			inline uint8_t persons() const;
 			
@@ -25,6 +28,11 @@ namespace House
 			bool getPersons();
 			
 			void display();
+	};
+	
+	inline ConnectedHouse* HouseLCD::house()
+	{
+		return house_;
 	}
 	
 	inline float HouseLCD::temp() const

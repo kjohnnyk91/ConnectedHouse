@@ -91,8 +91,8 @@ namespace House
 		upperTemp = (tempRegister & 0xFF00) >> 8;
 		lowerTemp = (tempRegister & 0x00FF);
 		
-		// std::cout << upperTemp << std::endl;
-		// std::cout << lowerTemp << std::endl;
+		std::cout << "upperTemp = " << upperTemp << std::endl;
+		std::cout << "lowerTemp = " << lowerTemp << std::endl;
 
 		GPIOUtils::i2cCloseStatus(i2cClose(handle_), MCP9808_NAME);
 		
@@ -129,9 +129,6 @@ namespace House
 		
 		std::cout << std::endl;
 		
-		std::cout << "upperTemp = " << upperTemp << std::endl;
-		std::cout << "lowerTemp = " << lowerTemp << std::endl;
-
 		upperTemp &= 0x1F;
 
 		std::cout << "upperTemp = " << upperTemp << std::endl;
@@ -143,7 +140,7 @@ namespace House
 
 			upperTemp &= 0x0F;
 
-			return 256 - (((float) upperTemp)*16 + (((float) lowerTemp)/16));
+			return -(((float) upperTemp)*16 + (((float) lowerTemp)/16));
 		}
 		else
 		{

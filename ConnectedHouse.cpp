@@ -19,7 +19,7 @@ namespace House
 		{
 			light_ = new Light(this, GPIO_LED);
 			// door_ = new Door();
-			lcd_ = new LCD(LCD_I2C_BUS, LCD_1602_I2C_ADDRESS);
+			lcd_ = new HouseLCD(this,LCD_I2C_BUS, LCD_1602_I2C_ADDRESS);
 			tempSensor_ = new MCP9808(this);
 			// RFIDReader_ = new RFIDReader;
 		}
@@ -52,7 +52,7 @@ namespace House
 	{
 		delete light_;
 		// delete door_;
-		// delete lcd_;
+		delete lcd_;
 		delete tempSensor_;
 		// delete RFIDReader_;
 		
@@ -87,6 +87,90 @@ namespace House
 		}
 		else
 		{
+			return false;
+		}
+	}
+
+	bool ConnectedHouse::lightOff()
+	{
+		if(light_)
+		{
+			light_-> setLight(false);
+			
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	bool ConnectedHouse::lightOn()
+	{
+		if(light_)
+		{
+			light_-> setLight(true);
+			
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	bool ConnectedHouse::lcdOff()
+	{
+		if(lcd_ != nullptr)
+		{
+			lcd_-> enableBacklight(false);
+			
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	bool ConnectedHouse::lcdOn()
+	{
+		if(lcd_ != nullptr)
+		{
+			lcd_-> enableBacklight(true);
+			
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	bool ConnectedHouse::tempRead()
+	{
+		if(tempSensor_ && lcd_)
+		{
+			ConnectedHouse* tempSensorHouse(tempSensor_-> house());
+			ConnectedHouse* lcdHouse(lcd_-> house());
+			
+			if(tempSensorHouse != lcdHouse)
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+		
+		if(lcd_-> getTemp())
+		{
+			return true;
+		}
+		else
+		{
+			std::cerr << "ConnectedHouse : Failed to get the temperature" << std::endl;
 			return false;
 		}
 	}

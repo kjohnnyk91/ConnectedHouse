@@ -57,6 +57,11 @@ namespace House
 			bool displayTemp();
 	};
 	
+	inline ConnectedHouse* MCP9808::house()
+	{
+		return house_;
+	}
+	
 	inline bool MCP9808::A0() const
 	{
 		return A0_;
